@@ -1,0 +1,15 @@
+plugins {
+	id 'java'
+	id 'application'
+	id 'idea'
+}
+
+application {
+	mainClass = "ch.fhnw.algd1.sudoku.Sudoku"
+}
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
+}
+compileJava.options.encoding = 'UTF-8'
