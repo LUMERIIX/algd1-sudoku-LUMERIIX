@@ -32,7 +32,27 @@ public final class SudokuSolverImpl implements SudokuSolver {
 	 */
 	@Override
 	public boolean solved(SudokuModel model) {
-		// TODO (A1) start recursive search at square 0 or (0,0) resp.
+		return solve(model,0);
+	}
+
+	private boolean solve(SudokuModel model,int fieldNr){
+		if(fieldNr == model.size()*model.size()){
+			return checker.allOK(model);
+		}
+		int i = fieldNr/model.size(); //zeile
+		int j = fieldNr%model.size();
+		if(model.get(i,j) != 0){ //feld hat vordefinierten Wert
+			return solve(model,fieldNr+1);
+		}
+		for(int k = 1; k <= model.size(); k++){	//
+			model.set(i,j,k);
+			if(checker.allOK(model)){
+				if(solve(model,fieldNr+1)){
+					return true;
+				}
+			}
+		}
+		model.clear(i,j);
 		return false;
 	}
 
