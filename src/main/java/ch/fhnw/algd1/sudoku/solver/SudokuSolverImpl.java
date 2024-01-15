@@ -42,19 +42,20 @@ public final class SudokuSolverImpl implements SudokuSolver {
 		int i = fieldNr/model.size(); //zeile
 		int j = fieldNr%model.size();
 		if(model.get(i,j) != 0){ //feld hat vordefinierten Wert
-			return solve(model,fieldNr+1);
+			return solve(model,fieldNr+1); //gehe zum nächsten Feld
 		}
 		boolean found = false;
-		for(int k = 1; k <= model.size(); k++){	//
-			model.set(i,j,k);
-			if(checker.allOK(model)){ //Branch and Bounce
-				if(solve(model,fieldNr+1)){ //try to solve next-field
-					return true;
-				}
+		int k = 1;
+		while(!found && k <= model.size()) { //
+			model.set(i, j, k);
+			if (checker.oneOK(model,i,j) && solve(model, fieldNr + 1)) { //Branch and Bounce
+				found = true;
 			}
+			k++;
 		}
-		model.clear(i,j);
-		return false;
+		if(!found)
+			model.clear(i,j);
+		return found;
 	}
 
 	/*
