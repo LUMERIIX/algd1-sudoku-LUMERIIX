@@ -44,10 +44,11 @@ public final class SudokuSolverImpl implements SudokuSolver {
 		if(model.get(i,j) != 0){ //feld hat vordefinierten Wert
 			return solve(model,fieldNr+1);
 		}
+		boolean found = false;
 		for(int k = 1; k <= model.size(); k++){	//
 			model.set(i,j,k);
-			if(checker.allOK(model)){
-				if(solve(model,fieldNr+1)){
+			if(checker.allOK(model)){ //Branch and Bounce
+				if(solve(model,fieldNr+1)){ //try to solve next-field
 					return true;
 				}
 			}
