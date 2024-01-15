@@ -66,8 +66,29 @@ public final class SudokuSolverImpl implements SudokuSolver {
 	 */
 	@Override
 	public int nofSolutions(SudokuModel model) {
-		// TODO (A2) start recursive enumeration of solutions, beginning at square 0
-		// or (0,0) resp.
-		return 0;
+		return solveNof(model,0);
+	}
+
+	private int solveNof(SudokuModel model,int fieldNr){
+		int solsInt = 0;
+		if(fieldNr == model.size()*model.size()){
+			return 1;
+		}
+		int i = fieldNr/model.size(); //zeile
+		int j = fieldNr%model.size();
+		if(model.get(i,j) != 0){ //feld hat vordefinierten Wert
+			return solveNof(model,fieldNr+1); //gehe zum nächsten Feld
+		}
+		boolean found = false;
+		int k = 1;
+		while(solsInt < MAX && k <= model.size()) { //
+			model.set(i, j, k);
+			if (checker.oneOK(model,i,j)) { //Branch and Bounce
+				solsInt += solveNof(model, fieldNr + 1);
+			}
+			k++;
+		}
+		model.clear(i,j);
+		return solsInt;
 	}
 }
