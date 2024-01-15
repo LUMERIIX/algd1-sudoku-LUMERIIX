@@ -53,7 +53,7 @@ public final class SudokuSolverImpl implements SudokuSolver {
 			}
 			k++;
 		}
-		if(!found)
+		if(!found) // only needed to not delete the soltion of the sudoku
 			model.clear(i,j);
 		return found;
 	}
